@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration</title>
+    <title>User Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,22 +59,15 @@
 <body>
 
 <div class="container">
-    <h2>User Registration</h2>
-    <form method="post" action={% url "register" %}>
-        {% csrf_token %}
+    <h2>User Login</h2>
+    <form>
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
 
-        <label for="confirm-password">Confirm Password:</label>
-        <input type="password" id="confirm-password" name="confirm-password" required>
-
-        <button type="submit">Register</button>
+        <button type="submit">Login</button>
     </form>
 </div>
 

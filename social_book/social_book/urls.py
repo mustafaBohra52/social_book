@@ -16,9 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import path, include
 from social_book import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('form/',views.register)
+    path('reg/',views.reg),
+    path('register/',views.register , name="register"),
+    path('login/',views.login),
+    
+    
 ]
