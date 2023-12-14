@@ -79,10 +79,10 @@ WSGI_APPLICATION = 'social_book.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',
+        'NAME': 'register',
         'USER': 'mustafabohra',
         'PASSWORD': 'mustafabohra',
-        'HOST': 'todo.cjqfvx1czkep.ap-northeast-1.rds.amazonaws.com',   # Set to the appropriate database host
+        'HOST': 'todo1.cjqfvx1czkep.ap-northeast-1.rds.amazonaws.com',   # Set to the appropriate database host
         'PORT': '5432',  
         
     }
