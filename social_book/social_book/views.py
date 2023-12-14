@@ -153,51 +153,51 @@ def show_uploads(request):
     return render(request,'showUploadFile.html',data)
     
     
-import psycopg2
-from psycopg2 import sql
+# import psycopg2
+# from psycopg2 import sql
 
-# Replace these values with your actual database credentials
-db_config = {
-    'host': 'localhost',
-    'database': 'todo',
-    'user': 'mustafabohra',
-    'password': 'mustafabohra',
-    'port': '5432',  # Usually 5432 for PostgreSQL
-}
+# # Replace these values with your actual database credentials
+# db_config = {
+#     'host': 'localhost',
+#     'database': 'todo',
+#     'user': 'mustafabohra',
+#     'password': 'mustafabohra',
+#     'port': '5432',  # Usually 5432 for PostgreSQL
+# }
 
-def fetch_data_from_database():
-    try:
-        connection = psycopg2.connect(**db_config)
+# def fetch_data_from_database():
+#     try:
+#         connection = psycopg2.connect(**db_config)
 
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM form_registerform")
+#         cursor = connection.cursor()
+#         cursor.execute("SELECT * FROM form_registerform")
         
-        result = cursor.fetchall()
-        print({'result':result})
-        return result
+#         result = cursor.fetchall()
+#         print({'result':result})
+#         return result
         
 
-    except psycopg2.Error as e:
-        print(f"Error: {e}")
+#     except psycopg2.Error as e:
+#         print(f"Error: {e}")
 
-    finally:
-        # Close the cursor and connection
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.close()
+#     finally:
+#         # Close the cursor and connection
+#         if cursor:
+#             cursor.close()
+#         if connection:
+#             connection.close()
 
-# Example SQL query
+# # Example SQL query
 
 
-result=fetch_data_from_database()
+# result=fetch_data_from_database()
 
-def create_dbFrame(sql_queary):
-    coloumn = ['id','username','email','password','domain','visibility']
-    df = pd.DataFrame(sql_queary,columns=coloumn)
-    print(df)
+# def create_dbFrame(sql_queary):
+#     coloumn = ['id','username','email','password','domain','visibility']
+#     df = pd.DataFrame(sql_queary,columns=coloumn)
+#     print(df)
     
-create_dbFrame(result)
+# create_dbFrame(result)
     
 
 
