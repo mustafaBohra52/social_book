@@ -1,0 +1,52 @@
+<!-- templates/show_files.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uploaded Files</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Uploaded Files</h2>
+    <ul>
+        {% for i in file %}
+            <li>
+                <a href="{{ i.files }}" target="_blank">{{ i.files }}</a>
+                
+            </li>
+        {% endfor %}
+    </ul>
+    {% if not file %}
+        <p>No files have been uploaded yet.</p>
+    {% endif %}
+</body>
+</html>

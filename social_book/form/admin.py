@@ -1,10 +1,13 @@
 from django.contrib import admin
-from form.models import registerForm
+from form.models import registerForm,UploadFiles
 
 class registerAdmin(admin.ModelAdmin):
-    list_display=('username','email','password')
+    list_display=('domain','username','email','password','visibility')
     
+   
+class uploadfileAdmin(admin.ModelAdmin):
+    list_display=('files',)
     
 
-# Register your models here.
 admin.site.register(registerForm,registerAdmin)
+admin.site.register(UploadFiles,uploadfileAdmin)

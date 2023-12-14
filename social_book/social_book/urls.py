@@ -18,12 +18,26 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path, include
 from social_book import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('reg/',views.reg),
+    path('',views.reg,name="home"),
     path('register/',views.register , name="register"),
-    path('login/',views.login),
-    
+    path('login/',views.login,name="login"),
+    path('log/',views.log,name='log'),
+    path('userpage/',views.userpage),
+    path('dashboard/',views.dashboard,name="dashboard"),
+    path('author/',views.authorpage),
+    path('seller/',views.sellerpage),
+    path('file/',views.uploadFile,name="uploadfile"),
+    path('auth/',views.auth , name="auth"),
+    path('logout/',views.logoutss),
+    path('showfile/',views.show_uploads,name='show'),
+
     
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

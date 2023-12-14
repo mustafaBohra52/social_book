@@ -1,3 +1,4 @@
+{% include "header.html" %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +11,7 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            display: flex;
-            align-items: center;
+           
             justify-content: center;
             height: 100vh;
         }
@@ -22,6 +22,9 @@
             padding: 20px;
             border-radius: 8px;
             width: 300px;
+            position: absolute;
+            top: 20%;
+            left: 40%;
         }
 
         h2 {
@@ -57,10 +60,12 @@
     </style>
 </head>
 <body>
-
+{% block content %}
+<h3>{{msg}}</h3>
 <div class="container">
     <h2>User Login</h2>
-    <form>
+    <form method="post" action={% url "log" %}>
+        {% csrf_token %}
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
 
@@ -68,8 +73,10 @@
         <input type="password" id="password" name="password" required>
 
         <button type="submit">Login</button>
+        
     </form>
 </div>
-
+{{a}}
+{% endblock content %}
 </body>
 </html>

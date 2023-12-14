@@ -1,0 +1,85 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/navBar.css' %}">
+  <style>
+
+    body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+header {
+    background-color: #3b8132;
+    padding: 10px;
+    color: white;
+    text-align: center;
+}
+
+nav {
+    display: flex;
+    justify-content: right;
+    background-color: #5bb450;
+    padding: 10px;
+    margin
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    margin: 0 20px;
+    right: 20px;
+}
+
+nav a:hover {
+    background-color: #777;
+}
+
+.social-icons {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.social-icons a {
+    display: inline-block;
+    margin: 0 10px;
+    color: #333;
+}
+.nav{
+    margin-right:40px;
+    padding: 20px;
+}
+</style>
+</head>
+<body>
+
+  <header>
+    <h1>Social Book</h1>
+  </header>
+
+  <nav>
+    <div class="nav">
+    <a href="#">Home</a>
+    <a href="/author/">Author</a>
+    <a href="/seller/">sellers</a>
+    <a href="#">Contact</a>
+    <a href="/logout/">logout</a>
+    </div>
+    
+  </nav>
+
+  <!--<div class="social-icons">
+    <a href="#" target="_blank"><img src="facebook-icon.png" alt="Facebook"></a>
+    <a href="#" target="_blank"><img src="twitter-icon.png" alt="Twitter"></a>
+    <a href="#" target="_blank"><img src="instagram-icon.png" alt="Instagram"></a>
+  </div>-->
+
+  <!-- Your page content goes here -->
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        function validateFile() {
+            var fileInput = document.getElementById('file-input');
+            var errorMessage = document.getElementById('error-message');
+            
+            // Clear previous error message
+            errorMessage.textContent = '';
+
+            // Check if a file is selected
+            if (fileInput.files.length === 0) {
+                errorMessage.textContent = 'Please select a file.';
+                return false;
+            }
+
+            // Check the file type
+            var allowedExtensions = /(\.pdf|\.jpg)$/i;
+            var fileName = fileInput.value;
+
+            if (!allowedExtensions.exec(fileName)) {
+                errorMessage.textContent = 'Invalid file type. Please select a PDF or JPG file.';
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</head>
+<body>
+
+    <form action="{% url 'uploadfile' %}" method="post" onsubmit="return validateFile()">
+        {% csrf_token %}
+
+        <label for="file-input">Choose a file:</label>
+        <input type="file" id="file-input" name="file" accept=".pdf, .jpg">
+
+        <button type="submit">Upload</button>
+        
+        <p id="error-message"></p>
+        <a href="/showfile/">Show Uploaded file</a>
+    </form>
+
+</body>
+</html>
