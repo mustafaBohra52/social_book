@@ -83,7 +83,10 @@ DATABASES = {
         'USER': 'mustafabohra',
         'PASSWORD': 'mustafabohra',
         'HOST': '35.77.48.137',   # Set to the appropriate database host
-        'PORT': '5432',        # Set to the appropriate port for your PostgreSQL installation
+        'PORT': '5432',  
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
