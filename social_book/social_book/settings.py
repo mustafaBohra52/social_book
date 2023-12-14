@@ -82,11 +82,9 @@ DATABASES = {
         'NAME': 'todo',
         'USER': 'mustafabohra',
         'PASSWORD': 'mustafabohra',
-        'HOST': '35.77.48.137',   # Set to the appropriate database host
+        'HOST': 'todo.cjqfvx1czkep.ap-northeast-1.rds.amazonaws.com',   # Set to the appropriate database host
         'PORT': '5432',  
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
+        
     }
 }
 
