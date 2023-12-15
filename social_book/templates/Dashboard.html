@@ -61,25 +61,25 @@ nav a:hover {
   <header>
     <h1>Social Book</h1>
   </header>
-
+  {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
   <nav>
     <div class="nav">
     <a href="#">Home</a>
+    <a href="/myBook/">My Book</a>
     <a href="/author/">Author</a>
     <a href="/seller/">sellers</a>
-    <a href="#">Contact</a>
+    <a href="/file/">Upload File</a>
     <a href="/logout/">logout</a>
     </div>
     
   </nav>
-
-  <!--<div class="social-icons">
-    <a href="#" target="_blank"><img src="facebook-icon.png" alt="Facebook"></a>
-    <a href="#" target="_blank"><img src="twitter-icon.png" alt="Twitter"></a>
-    <a href="#" target="_blank"><img src="instagram-icon.png" alt="Instagram"></a>
-  </div>-->
-
-  <!-- Your page content goes here -->
+  {% comment %} <script>
+        setTimeout(function() {
+            window.location.href = "{% url 'dashboard' %}";
+        }, 3000);  // Redirect after 3 seconds (adjust as needed)
+    </script> {% endcomment %}
 
 </body>
 </html>

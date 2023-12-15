@@ -3,79 +3,45 @@ from django.http import HttpResponse
 from form.models import registerForm , UploadFiles
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from form.forms import RegisterForm
+# from form.forms import RegisterForm
+from form.forms import Upload
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from sqlalchemy import create_engine
 import pandas as pd
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+import os
 
 engine = create_engine('postgresql://mustafabohra:mustafabohra@localhost:5432/mydatabase',echo=True)
 
 
     
-
-@csrf_exempt
-
-def register(request):
-    if request.method == 'POST':
-        username=request.POST.get('username')
-        email = request.POST.get('email')
-        password=request.POST.get('password')
-        confirmpass=request.POST.get('confirm-password')
-        
-        if request.POST.get('password')==request.POST.get('confirm-password'):
-            register = registerForm(username=username,email=email,password=password)
-            register.save()
-        else:
-            return HttpResponse("password is not same")
-        
-    return redirect("login")
-    # if request.method == 'POST':
-    #     form = RegisterForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #         username=request.POST.get('username')
-    #         email = request.POST.get('email')
-    #         password=request.POST.get('password')
-    #         domain=request.POST.get('domain')
-    #         visibility = request.POST.get('public_visibility')
-    #         savedata = registerForm(domain=domain,username=username , email=email , password=password,visibility=visibility)
-    #         savedata.save()
-    #         user = registerForm(
-    #             username=form.cleaned_data['username'],
-    #             email=form.cleaned_data['email'],
-    #             password=form.cleaned_data['password']
-    #         )
-    #         # Log in the user after registration if needed
-    #         # login(request, user)
-    #         msg="Registration Sucessfull"
-    #         data={"msg":msg}
-    #         return render(request,'login.html',data)  # Redirect to login page after successful registration
-    # else:
-    #     form = RegisterForm()
-
-    # return render(request, 'login.html', {'form': form})
-
 def reg(request):
     return render(request,"register.html")
-def login(request):
-    return render(request,"login.html")
 
-
-def log(request):
+def logIn(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
         user = authenticate(request,username=username, password=password)
+        
         if user is not None:
             print("log page")
-            return render(request,'Dashboard.html')
+            print(request.user.username)
+            request.session['username'] = user.username
+            login(request,user)
+            
+            return redirect('dashboard')
         else:
             a="invalid credential"
             return HttpResponse("Invalid Login Details")
+    return render(request,"login.html")
+
+
+
             
        
     
@@ -84,14 +50,22 @@ def userpage(request):
     data={"users":users}
     return render(request,"userPage.html",data)
 
+
+
 @login_required
 def dashboard(request):
     print("dashboard")
+
     return render(request,"Dashboard.html")
     
+# @login_required
 def authorpage(request):
+    print("-" * 30)
+    print("username : -")
+    print(request.user.username)
+    print("-" * 30)
+    author = registerForm.objects.filter(username=request.user.username,domain="Author",visibility=True)
     
-    author = registerForm.objects.filter(domain="Author",visibility=True)
     data={"domain":author}
     
     print(author)
@@ -100,29 +74,39 @@ def authorpage(request):
    
 
 def sellerpage(request):
-    seller = registerForm.objects.filter(domain="Seller",visibility=True)
-    
+    print(request.user.username)
+    seller = registerForm.objects.filter(username=request.user.username,domain="Seller",visibility=True)
+    print(seller)
     data = {"domain":seller}
     
     return render(request,'sellerpage.html',data)
     
 
- 
+@csrf_exempt
 def uploadFile(request):
-    files = request.POST.get('file')
-    
-    store = UploadFiles(files=files)
-    store.save()
-    
+    if request.method=="POST":
+        author=request.POST.get("author")
+        title=request.POST.get('title')
+        desc = request.POST.get('desc')
+        media ='D:/Markytics/social_book/social_book/media/uploads'
+        
+        file = os.path.join(media,request.POST.get('file'))
+        
+        
+        store = UploadFiles(files=file,authorName=author,title=title,desc=desc)
+        store.save()
+        
     return render(request,"uploadFiles.html")
+    
 
 @csrf_exempt
-
 def auth(request):
     username=request.POST.get('username')
     email = request.POST.get('email')
     password=request.POST.get('password')
     domain=request.POST.get('domain')
+    confirm = request.POST.get('confirm-password')
+
     visibility = request.POST.get('public_visibility')
    
     
@@ -132,16 +116,25 @@ def auth(request):
     else:
         print(visibility)
         visibility=False
-         
-    user = User.objects.create_user(username=username,
-                                         password=password,
-                                         email=email)
     
-    user.save()
-    store = registerForm(username=username,email=email,domain=domain,visibility=visibility)
-    store.save()
+    if password==confirm:
+        user = User.objects.create_user(username=username,
+                                                password=password,
+                                                email=email)
+        
+        user.save()
+        store = registerForm(username=username,email=email,domain=domain,visibility=visibility)
+        store.save()
+        return redirect('login')
+        # return render(request,"register.html",{"p":password,"c":confirm})
+    else:
+        messages.warning(request,'password is not same')
+        return redirect('/')
+        return HttpResponse("password is not same")
+        
     #log(username,password)
-    return redirect('login')
+        
+    
 
 def logoutss(request):
     logout(request)
@@ -151,6 +144,14 @@ def show_uploads(request):
     file = UploadFiles.objects.all()
     data={"file":file}
     return render(request,'showUploadFile.html',data)
+
+def myBook(request):
+    # if registerForm.objects.filter(username=request.user.username,domain="Author",visibility=True) or registerForm.objects.filter(username=request.user.username,domain="Seller",visibility=True):
+    file = UploadFiles.objects.all()
+    data={"file":file}
+    # else:
+        # return HttpResponse("no file uploaded")
+    return render(request,"myBook.html",data)
     
     
 import psycopg2
@@ -190,14 +191,14 @@ def fetch_data_from_database():
 # Example SQL query
 
 
-result=fetch_data_from_database()
+# result=fetch_data_from_database()
 
 def create_dbFrame(sql_queary):
     coloumn = ['id','username','email','password','domain','visibility']
     df = pd.DataFrame(sql_queary,columns=coloumn)
     print(df)
     
-create_dbFrame(result)
+# create_dbFrame(result)
     
 
 

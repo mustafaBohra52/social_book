@@ -24,9 +24,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.reg,name="home"),
-    path('register/',views.register , name="register"),
-    path('login/',views.login,name="login"),
-    path('log/',views.log,name='log'),
+    # path('register/',views.register , name="register"),
+    path('login/',views.logIn,name="login"),
+    # path('log/',views.log,name='log'),
     path('userpage/',views.userpage),
     path('dashboard/',views.dashboard,name="dashboard"),
     path('author/',views.authorpage),
@@ -35,9 +35,12 @@ urlpatterns = [
     path('auth/',views.auth , name="auth"),
     path('logout/',views.logoutss),
     path('showfile/',views.show_uploads,name='show'),
+    
+    path('myBook/',views.myBook)
 
     
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

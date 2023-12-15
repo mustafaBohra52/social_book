@@ -1,11 +1,18 @@
 from django import forms
-from form.models import registerForm
+from form.models import registerForm,UploadFiles
+from django.contrib.auth.models import User
 
-class RegisterForm(forms.ModelForm):
+class RegisterForm(forms.Form):
     class Meta:
-        model = registerForm
+        model = User
         fields = ['domain','username', 'email', 'password']
         widgets = {
             'password': forms.PasswordInput(),
         }
         
+
+
+class Upload(forms.ModelForm):
+    class Meta:
+        model = UploadFiles
+        fields = ['files']

@@ -64,7 +64,7 @@
 <h3>{{msg}}</h3>
 <div class="container">
     <h2>User Login</h2>
-    <form method="post" action={% url "log" %}>
+    <form method="post" action={% url "login" %}>
         {% csrf_token %}
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
@@ -73,6 +73,7 @@
         <input type="password" id="password" name="password" required>
 
         <button type="submit">Login</button>
+        <a href="/"><h5>Register</h5></a>
         
     </form>
 </div>

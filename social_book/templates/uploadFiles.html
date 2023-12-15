@@ -1,70 +1,86 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload</title>
+    
+    <title>Upload Book Form</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 20px;
-        }
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
 
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
+.upload-form {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
 
-        input[type="file"] {
-            margin-bottom: 10px;
-        }
+h2 {
+    color: #333;
+}
 
-        #error-message {
-            color: red;
-            margin-top: 10px;
-        }
-    </style>
-    <script>
-        function validateFile() {
-            var fileInput = document.getElementById('file-input');
-            var errorMessage = document.getElementById('error-message');
-            
-            // Clear previous error message
-            errorMessage.textContent = '';
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-            // Check if a file is selected
-            if (fileInput.files.length === 0) {
-                errorMessage.textContent = 'Please select a file.';
-                return false;
-            }
+label {
+    font-size: 16px;
+    margin: 10px 0;
+}
 
-            // Check the file type
-            var allowedExtensions = /(\.pdf|\.jpg)$/i;
-            var fileName = fileInput.value;
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
 
-            if (!allowedExtensions.exec(fileName)) {
-                errorMessage.textContent = 'Invalid file type. Please select a PDF or JPG file.';
-                return false;
-            }
+button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
 
-            return true;
-        }
-    </script>
+button:hover {
+    background-color: #45a049;
+}
+</style>
 </head>
 <body>
+    <div class="upload-form">
+        <h2>Upload Book</h2>
+        <form action="{% url 'uploadfile' %}" method="POST" >
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
 
-    <form action="{% url 'uploadfile' %}" method="post" onsubmit="return validateFile()">
-        {% csrf_token %}
+            <label for="author">Author:</label>
+            <input type="text" id="author" name="author" required>
 
-        <label for="file-input">Choose a file:</label>
-        <input type="file" id="file-input" name="file" accept=".pdf, .jpg">
+            <label for="description">Description:</label>
+            <textarea id="description" name="desc" rows="4" required></textarea>
 
-        <button type="submit">Upload</button>
-        
-        <p id="error-message"></p>
-        <a href="/showfile/">Show Uploaded file</a>
-    </form>
+            <label for="file">Upload Book File:</label>
+            <input type="file" id="file" name="file" accept=".pdf, .docx, .jpg, .jpeg, .png" required>
 
+            <button type="submit">Upload</button>
+        </form>
+    </div>
 </body>
 </html>
+
+
