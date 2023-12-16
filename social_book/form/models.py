@@ -14,9 +14,9 @@ class UploadFiles(models.Model):
     authorName = models.CharField(max_length=20,default="**")
     desc = models.CharField(max_length=200,null=True)
     files = models.FileField(upload_to='uploads/')
+    username = models.CharField(max_length=20,default="-")
     
-class fors(forms.Form):
-    file = forms.FileField()
+
     
   
   

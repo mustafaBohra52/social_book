@@ -88,13 +88,14 @@ def uploadFile(request):
         author=request.POST.get("author")
         title=request.POST.get('title')
         desc = request.POST.get('desc')
-        media ='D:/Markytics/social_book/social_book/media/uploads'
+        file = request.FILES.get('file')
+        username = request.user.username
         
-        file = os.path.join(media,request.POST.get('file'))
         
         
-        store = UploadFiles(files=file,authorName=author,title=title,desc=desc)
+        store = UploadFiles(username=username,files=file,authorName=author,title=title,desc=desc)
         store.save()
+        
         
     return render(request,"uploadFiles.html")
     
@@ -146,11 +147,19 @@ def show_uploads(request):
     return render(request,'showUploadFile.html',data)
 
 def myBook(request):
-    # if registerForm.objects.filter(username=request.user.username,domain="Author",visibility=True) or registerForm.objects.filter(username=request.user.username,domain="Seller",visibility=True):
-    file = UploadFiles.objects.all()
-    data={"file":file}
-    # else:
-        # return HttpResponse("no file uploaded")
+    print("#"*25)
+    print(request.user.username)
+    print("#"*25)
+    if registerForm.objects.filter(username=request.user.username):
+        
+        print("-"*10)
+        print(request.user.username)
+        
+        print("-"*10)
+        file = UploadFiles.objects.filter(username=request.user.username)
+        data={"file":file}
+    else:
+        return HttpResponse("no file uploaded")
     return render(request,"myBook.html",data)
     
     

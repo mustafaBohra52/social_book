@@ -64,7 +64,7 @@ button:hover {
 <body>
     <div class="upload-form">
         <h2>Upload Book</h2>
-        <form action="{% url 'uploadfile' %}" method="POST" >
+        <form action="{% url 'uploadfile' %}" method="POST" enctype="multipart/form-data" >
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
 
