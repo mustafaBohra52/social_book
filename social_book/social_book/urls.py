@@ -20,11 +20,13 @@ from django.urls import path, include
 from social_book import views
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework_simplejwt.views import (TokenObtainPairView,TokenRefreshView,TokenVerifyView)
+from rest_framework.authtoken.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.reg,name="home"),
-    # path('register/',views.register , name="register"),
+    path('register/',views.Registration.as_view(),name='register'),
     path('login/',views.logIn,name="login"),
     # path('log/',views.log,name='log'),
     path('userpage/',views.userpage),
@@ -35,8 +37,9 @@ urlpatterns = [
     path('auth/',views.auth , name="auth"),
     path('logout/',views.logoutss),
     path('showfile/',views.show_uploads,name='show'),
-    
-    path('myBook/',views.myBook)
+    path('myBook/',views.myBook),
+    path('api-token-auth/',obtain_auth_token)
+   
 
     
 ]

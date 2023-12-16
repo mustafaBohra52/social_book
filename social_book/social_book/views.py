@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect 
 from django.http import HttpResponse
 from form.models import registerForm , UploadFiles
 from django.shortcuts import render, redirect
@@ -13,6 +13,7 @@ import pandas as pd
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import os
+from rest_framework.views import APIView
 
 engine = create_engine('postgresql://mustafabohra:mustafabohra@localhost:5432/mydatabase',echo=True)
 
@@ -36,8 +37,9 @@ def logIn(request):
             
             return redirect('dashboard')
         else:
+            messages.warning(request,"Invalid Credential")
             a="invalid credential"
-            return HttpResponse("Invalid Login Details")
+            return redirect('/login')
     return render(request,"login.html")
 
 
@@ -117,21 +119,26 @@ def auth(request):
     else:
         print(visibility)
         visibility=False
-    
-    if password==confirm:
-        user = User.objects.create_user(username=username,
-                                                password=password,
-                                                email=email)
-        
-        user.save()
-        store = registerForm(username=username,email=email,domain=domain,visibility=visibility)
-        store.save()
-        return redirect('login')
-        # return render(request,"register.html",{"p":password,"c":confirm})
-    else:
-        messages.warning(request,'password is not same')
+    if User.objects.filter(username=username).exists():
+        messages.warning(request,"username Exists enter other username ")
         return redirect('/')
-        return HttpResponse("password is not same")
+        
+    else:
+        if password==confirm:
+            user = User.objects.create_user(username=username,
+                                                    password=password,
+                                                    email=email)
+            
+            user.save()
+            store = registerForm(username=username,email=email,domain=domain,visibility=visibility)
+            store.save()
+            messages.success(request,"Regiser Successfully ")
+            return redirect('login')
+            # return render(request,"register.html",{"p":password,"c":confirm})
+        else:
+            messages.warning(request,'password is not same')
+            return redirect('/')
+            return HttpResponse("password is not same")
         
     #log(username,password)
         
@@ -151,7 +158,6 @@ def myBook(request):
     print(request.user.username)
     print("#"*25)
     if registerForm.objects.filter(username=request.user.username):
-        
         print("-"*10)
         print(request.user.username)
         
@@ -208,6 +214,32 @@ def myBook(request):
 #     print(df)
     
 # create_dbFrame(result)
+
+from form.serializers import registerSerializer
+from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+class Registration(APIView):
+    def post(self,request):
+        serialzer = registerSerializer(data=request.data)
+        username="mustafa1"
+
+        
+        
+        if not serialzer.is_valid():
+            return Response({'status':403,'errors':serialzer.errors,'message':'error'})
+        
+        serialzer.save()
+        
+        users = User.objects.get(username=username)
+        token_obj, _ = Token.objects.get_or_create(user=users)
+        print(token_obj)
+        
+        
+        return Response({'status':200,'payload':serialzer.data,"token":str(token_obj),'message':'token generated'})
+            
+
+        
+        
     
 
 

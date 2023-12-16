@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'form',
+    'storages',
+    'rest_framework_simplejwt',
+    'rest_framework.authtoken'
     
 ]
 
@@ -140,13 +143,14 @@ MEDIA_URL = '/media/'
 
 LOGIN_URL = 'login'
 
+
 MESSAGE_TAGS={
     messages.ERROR:'danger'
 }
 
 
-# AWS_ACCESS_KEY_ID = 'AWS_ACCESS_KEY_ID '
-# AWS_SECRET_ACCESS_KEY = 'AWS_SECRET_ACCESS_KEY'
+AWS_ACCESS_KEY_ID = 'AKIA3ZMGGWNQLFR4Y6GO'
+AWS_SECRET_ACCESS_KEY = 'Q/0PIqv+YvwOpFXfRvQiqKjDA2zKMULG/1pRvrj'
 AWS_STORAGE_BUCKET_NAME = 'socialbookfiles'
 AWS_S3_SIGNATURE_NAME = 's3v4',
 AWS_S3_REGION_NAME = 'us-east-1'
